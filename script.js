@@ -31,53 +31,69 @@ keys.addEventListener('click', e => {
     const displayedNum = display.textContent;
     const previousKeyType = calculator.dataset.previousKeyType
     
-    if (!action) {
-      
+    const createResultString = function {
+
+    if (!action) {  
       if (action !== 'clear') {  
     const clearButton = calculator.querySelector('[data-action=clear]');  clearButton.textContent = 'CE'
                                   
   } 
-      if (displayedNum === '0' || previousKeyType === 'operator' || previousKeyType === 'calculate') {
-        display.textContent = keyContent;
-        
-        if (previousKeyType === 'calculate') {
+      return displayedNum === '0' || 
+      previousKeyType === 'operator' || 
+      previousKeyType === 'calculate'
+        ? keyContent
+        : displayedNum + keyContent;
+
+      if (previousKeyType === 'calculate') {
         calculator.dataset.operator = ''
         calculator.dataset.modValue = '0'
         }
-      } else {
-        display.textContent = displayedNum + keyContent;
       } 
-      calculator.dataset.previousKeyType = 'number'
-    } else if (action === 'decimal') {
-      if (previousKeyType === 'operator' || previousKeyType === 'calculate') {
-        display.textContent = '0.'
-      } else if (!displayedNum.includes('.')) {
-        display.textContent = displayedNum + '.'
+
+    if (action === 'decimal') {
+      if (previousKeyType === 'operator' || 
+        previousKeyType === 'calculate') {
+        return '0.'
+      }  
+
+      if (!displayedNum.includes('.')) {
+        return displayedNum + '.'
       }
-      calculator.dataset.previousKeyType = 'decimal';
+
+      return displayedNum
       
-    } else if (action === 'add' || action === 'subtract' || action === 'multiply' || action === 'divide') {
+    }  
+
+    if (
+      action === 'add' || 
+      action === 'subtract' || 
+      action === 'multiply' || 
+      action === 'divide'
+    ) {
       
       const firstValue = calculator.dataset.firstValue
       const operator = calculator.dataset.operator
       const secondValue = displayedNum
       
-      if (firstValue && operator && previousKeyType !== 'operator' && previousKeyType !== 'calculate') {
-        const calcValue = calculate(firstValue, operator, secondValue)
-        display.textContent = calcValue
-        calculator.dataset.firstValue = calcValue;
-      } else {
-        calculator.dataset.firstValue = displayedNum;
+      return firstValue && 
+        operator && 
+        previousKeyType !== 'operator' && 
+        previousKeyType !== 'calculate'
+        ? calculate(firstValue, operator, displayedNum)
+        : displayedNum
+      }
+    } 
+  } 
+
+     else {
+        calculator.dataset.firstValue = displayedNum
       }         
       
         key.classList.add('is-depressed')
-      
-        //Add custom attribute
+        Array.from(key.parentNode.children).forEach(k => k.classList.remove('is-depressed'))
+
         calculator.dataset.previousKeyType = 'operator';
         calculator.dataset.operator = action;
-      
-        //Remove .is-depressed class from all keys
-        Array.from(key.parentNode.children).forEach(k => k.classList.remove('is-depressed'))
    
   } else if (action === 'clear') {
       if (key.textContent === 'AC') {
@@ -108,24 +124,27 @@ keys.addEventListener('click', e => {
       calculator.dataset.previousKeyType = 'calculate';
     }  
     
-} 
-
 })
 
-
 const calculate = function (n1, operator, n2) {
-  let result = ''
+  const firstNum = parseFloat(n1)
+  const secondNum = parseFloat(n2)
+
     if (operator === 'add') {
-      result = parseFloat(n1) + parseFloat(n2);
-    } else if (operator === 'subtract') {
-      result = parseFloat(n1) - parseFloat(n2);
-    } else if (operator === 'multiply') {
-      result = parseFloat(n1) * parseFloat(n2);
-    } else if (operator === 'divide') {
-      result = parseFloat(n1) / parseFloat(n2);
+      return firstNum + secondNum;
+    } 
+
+    if (operator === 'subtract') {
+      return firstNum - secondNum;
+    } 
+
+    if (operator === 'multiply') {
+      return firstNum * secondNum;
+    } 
+
+    if (operator === 'divide') {
+      return firstNum / secondNum;
     }
-  
-  return result
-  
+    
 }
 
