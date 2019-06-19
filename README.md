@@ -7,7 +7,13 @@ I built a calculator using HTML + CSS but when I found the tutorial for the Java
 I worked on the JavaScript from the tutorial and with the guidance of coaches at Codebar. IT is my first attempt at refactoring a big project and also using git to commit my changes.
 
 Notes on git:
+
 To check the status of my files and what has been modified: git add
+
 To see what changes have been made to the files: git diff (q to exit git diff)
+
 To see what commits have been made: git log (the latest commit is at the top)
+
 To commit changes ("Changes not staged for commit"): git commit -a -m "name of commit"
+
+To push changes to git: git push origin master
