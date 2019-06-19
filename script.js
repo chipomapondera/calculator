@@ -1,3 +1,5 @@
+//Calculator
+
 const calculator = document.querySelector(".calculator");
 const keys = calculator.querySelector(".calculator__keys");
 const display = document.querySelector('.calculator__display');
@@ -31,24 +33,37 @@ keys.addEventListener('click', e => {
     const previousKeyType = calculator.dataset.previousKeyType
 
     Array.from(key.parentNode.children).forEach(k => k.classList.remove('is-depressed'))
-
     
-    if (!action) {
+  const createResultString = () => {
+      if (!action) {
       
 
       if (displayedNum === '0' || 
       	previousKeyType === 'operator' || 
       	previousKeyType === 'calculate') {
-        display.textContent = keyContent;
-        
-        if (previousKeyType === 'calculate') {
-        calculator.dataset.operator = ''
-        calculator.dataset.modValue = '0'
-        }
-        
+        return keyContent;
+
       } else {
-        display.textContent = displayedNum + keyContent;
-      } 
+        return displayedNum + keyContent;
+      }	
+	}
+}
+
+  const updateCalculatorState = () => {
+
+}
+
+//Remove after refactoring: ? resultString : display.textContent
+  const resultString = createResultString()
+  display.textContent = resultString ? resultString : display.textContent
+  updateCalculatorState()
+
+    if (!action) {
+      if (previousKeyType === 'calculate') {
+        	calculator.dataset.operator = ''
+        	calculator.dataset.modValue = '0'
+      }
+
       calculator.dataset.previousKeyType = 'number'
     } 
 
@@ -67,16 +82,18 @@ keys.addEventListener('click', e => {
     	action === 'subtract' || 
     	action === 'multiply' || 
     	action === 'divide') {
-
       const firstValue = calculator.dataset.firstValue
       const operator = calculator.dataset.operator
       const secondValue = displayedNum
-      
+        console.log('Operator pressed ', action)
+  
       if (firstValue && 
       	  operator && 
       	  previousKeyType !== 'operator' && 
       	  previousKeyType !== 'calculate') {
         const calcValue = calculate(firstValue, operator, secondValue)
+
+    console.log('This is ', calcValue)
         display.textContent = calcValue
         calculator.dataset.firstValue = calcValue;
       } else {
@@ -126,7 +143,6 @@ keys.addEventListener('click', e => {
 } 
 
 })
-
 
 const calculate = function (n1, operator, n2) {
     const firstNum = parseFloat(n1)
