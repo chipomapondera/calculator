@@ -29,56 +29,66 @@ keys.addEventListener('click', e => {
     const keyContent = key.textContent;
     const displayedNum = display.textContent;
     const previousKeyType = calculator.dataset.previousKeyType
+
+    Array.from(key.parentNode.children).forEach(k => k.classList.remove('is-depressed'))
+
     
     if (!action) {
       
-      if (action !== 'clear') {  
-    const clearButton = calculator.querySelector('[data-action=clear]');  clearButton.textContent = 'CE'
-                                  
-  } 
-      if (displayedNum === '0' || previousKeyType === 'operator' || previousKeyType === 'calculate') {
+
+      if (displayedNum === '0' || 
+      	previousKeyType === 'operator' || 
+      	previousKeyType === 'calculate') {
         display.textContent = keyContent;
         
         if (previousKeyType === 'calculate') {
         calculator.dataset.operator = ''
         calculator.dataset.modValue = '0'
         }
+        
       } else {
         display.textContent = displayedNum + keyContent;
       } 
       calculator.dataset.previousKeyType = 'number'
-    } else if (action === 'decimal') {
-      if (previousKeyType === 'operator' || previousKeyType === 'calculate') {
+    } 
+
+    if (action === 'decimal') {
+      if (previousKeyType === 'operator' || 
+      	previousKeyType === 'calculate') {
         display.textContent = '0.'
       } else if (!displayedNum.includes('.')) {
         display.textContent = displayedNum + '.'
       }
       calculator.dataset.previousKeyType = 'decimal';
       
-    } else if (action === 'add' || action === 'subtract' || action === 'multiply' || action === 'divide') {
-      
+    } 
+
+    if (action === 'add' || 
+    	action === 'subtract' || 
+    	action === 'multiply' || 
+    	action === 'divide') {
+
       const firstValue = calculator.dataset.firstValue
       const operator = calculator.dataset.operator
       const secondValue = displayedNum
       
-      if (firstValue && operator && previousKeyType !== 'operator' && previousKeyType !== 'calculate') {
+      if (firstValue && 
+      	  operator && 
+      	  previousKeyType !== 'operator' && 
+      	  previousKeyType !== 'calculate') {
         const calcValue = calculate(firstValue, operator, secondValue)
         display.textContent = calcValue
         calculator.dataset.firstValue = calcValue;
       } else {
         calculator.dataset.firstValue = displayedNum;
-      }         
-      
-        key.classList.add('is-depressed')
-      
-        //Add custom attribute
-        calculator.dataset.previousKeyType = 'operator';
-        calculator.dataset.operator = action;
-      
-        //Remove .is-depressed class from all keys
-        Array.from(key.parentNode.children).forEach(k => k.classList.remove('is-depressed'))
-   
-  } else if (action === 'clear') {
+      }   
+
+    key.classList.add('is-depressed')
+  	calculator.dataset.previousKeyType = 'operator';
+    calculator.dataset.operator = action;             
+  } 
+
+  	if (action === 'clear') {
       if (key.textContent === 'AC') {
         calculator.dataset.firstValue = ''
         calculator.dataset.operator = ''
@@ -89,9 +99,15 @@ keys.addEventListener('click', e => {
       }
     
     display.textContent = 0;
-    calculator.dataset.previousKeyType = 'clear';
-    
-  } else if (action === 'calculate') {
+    calculator.dataset.previousKeyType = 'clear';    
+  } 
+
+    if (action !== 'clear') {  
+    const clearButton = calculator.querySelector('[data-action=clear]');  clearButton.textContent = 'CE'
+                                  
+  } 
+
+  	if (action === 'calculate') {
       let firstValue = calculator.dataset.firstValue
       const operator = calculator.dataset.operator
       let secondValue = displayedNum
