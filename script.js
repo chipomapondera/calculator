@@ -45,9 +45,15 @@ keys.addEventListener('click', e => {
     	return displayedNum === '0' || 
       		previousKeyType === 'operator' || 
       		previousKeyType === 'calculate'
-      		? keyContent;
+      		? keyContent
 			: displayedNum + keyContent;
 	}
+
+	if (action === 'decimal') {
+      if (previousKeyType === 'operator' || previousKeyType === 'calculate') return '0.'
+      if (!displayedNum.includes('.')) return displayedNum + '.'    
+      return displayedNum	
+    }
 }
 
   const updateCalculatorState = () => {
@@ -69,14 +75,7 @@ keys.addEventListener('click', e => {
     } 
 
     if (action === 'decimal') {
-      if (previousKeyType === 'operator' || 
-      	previousKeyType === 'calculate') {
-        display.textContent = '0.'
-      } else if (!displayedNum.includes('.')) {
-        display.textContent = displayedNum + '.'
-      }
-      calculator.dataset.previousKeyType = 'decimal';
-      
+      calculator.dataset.previousKeyType = 'decimal';     
     } 
 
     if (action === 'add' || 
