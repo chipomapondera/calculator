@@ -40,8 +40,11 @@ keys.addEventListener('click', e => {
   	// 2. displayedNum
   	// 3. previousKeyType
   	// 4. action
+    // 5. calculator.dataset.firstValue
+    // 6. calculator.dataset.operator
   	
     if (!action) {
+    	console.log('This is action 1 ', action)
     	return displayedNum === '0' || 
       		previousKeyType === 'operator' || 
       		previousKeyType === 'calculate'
@@ -50,10 +53,30 @@ keys.addEventListener('click', e => {
 	}
 
 	if (action === 'decimal') {
-      if (previousKeyType === 'operator' || previousKeyType === 'calculate') return '0.'
-      if (!displayedNum.includes('.')) return displayedNum + '.'    
-      return displayedNum	
+		console.log('This is action 2 ', action)
+      	if (previousKeyType === 'operator' || previousKeyType === 'calculate') return '0.'
+      	if (!displayedNum.includes('.')) return displayedNum + '.'    
+      	return displayedNum	
     }
+
+    console.log('This is action 3 ', action)
+    if (action === 'add' || 
+    	action === 'subtract' || 
+    	action === 'multiply' || 
+    	action === 'divide') {
+    	console.log('This is operator', action)
+
+      	const firstValue = calculator.dataset.firstValue
+      	const operator = calculator.dataset.operator
+      	const secondValue = displayedNum
+  
+    	return firstValue && 
+    	operator && 
+    	previousKeyType !== 'operator' && 
+    	previousKeyType !== 'calculate'
+    	? calculate(firstValue, operator, secondValue)
+		: displayedNum             
+  } 
 }
 
   const updateCalculatorState = () => {
@@ -85,20 +108,18 @@ keys.addEventListener('click', e => {
       const firstValue = calculator.dataset.firstValue
       const operator = calculator.dataset.operator
       const secondValue = displayedNum
-        console.log('Operator pressed ', action)
   
-      if (firstValue && 
-      	  operator && 
-      	  previousKeyType !== 'operator' && 
-      	  previousKeyType !== 'calculate') {
-        const calcValue = calculate(firstValue, operator, secondValue)
+    if (firstValue && 
+    	operator && 
+    	previousKeyType !== 'operator' && 
+    	previousKeyType !== 'calculate') {
 
-    console.log('This is ', calcValue)
-        display.textContent = calcValue
-        calculator.dataset.firstValue = calcValue;
-      } else {
-        calculator.dataset.firstValue = displayedNum;
-      }   
+    	const calcValue = calculate(firstValue, operator, secondValue)
+    	display.textContent = calcValue
+    	calculator.dataset.firstValue = calcValue;
+    	} else {
+    	calculator.dataset.firstValue = displayedNum;
+    	}   
 
     key.classList.add('is-depressed')
   	calculator.dataset.previousKeyType = 'operator';
