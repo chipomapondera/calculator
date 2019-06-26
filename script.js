@@ -35,17 +35,18 @@ keys.addEventListener('click', e => {
     Array.from(key.parentNode.children).forEach(k => k.classList.remove('is-depressed'))
     
   const createResultString = () => {
-      if (!action) {
-      
-
-      if (displayedNum === '0' || 
-      	previousKeyType === 'operator' || 
-      	previousKeyType === 'calculate') {
-        return keyContent;
-
-      } else {
-        return displayedNum + keyContent;
-      }	
+  	// Variables required are:
+  	// 1. keyContent
+  	// 2. displayedNum
+  	// 3. previousKeyType
+  	// 4. action
+  	
+    if (!action) {
+    	return displayedNum === '0' || 
+      		previousKeyType === 'operator' || 
+      		previousKeyType === 'calculate'
+      		? keyContent;
+			: displayedNum + keyContent;
 	}
 }
 
