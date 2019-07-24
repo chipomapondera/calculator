@@ -80,8 +80,40 @@ describe('division', function() {
 })
 
 
+describe('decimal after number', function() {
+	it('displays number with decimal', function() {
+		cy.visit('/')
+		cy.contains('0').click()
+		cy.contains('.').click()
+		cy.get('.calculator__display')
+		  .should('have.text', '0.')
+	})
+})
 
 
+describe('decimal after operator', function() {
+	it('displays decimal after operator', function() {
+		cy.visit('/')
+		cy.contains('1').click()
+		cy.contains('+').click()
+		cy.contains('.').click()
+		cy.get('.calculator__display')
+		  .should('have.text', '0.')
+	})
+})
 
+
+describe('decimal after equals', function() {
+	it('displays decimal after equals', function() {
+		cy.visit('/')
+		cy.contains('1').click()
+		cy.contains('+').click()
+		cy.contains('3').click()
+		cy.contains('=').click()
+		cy.contains('.').click()
+		cy.get('.calculator__display')
+		  .should('have.text', '0.')
+	})
+})
 
 
