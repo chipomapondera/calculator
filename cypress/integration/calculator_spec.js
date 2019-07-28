@@ -203,4 +203,33 @@ describe('clear with CE', function() {
 })
 
 
+describe('calculator special addition action', function() {
+	it('equals button continues to add incrementally', function() {
+		cy.visit('/')
+		cy.contains('2').click()
+		cy.contains('+').click()
+		cy.contains('1').click()
+		cy.contains('=').click()
+		cy.contains('=').click()
+		cy.contains('=').click()
+		cy.contains('=').click()
+		cy.get('.calculator__display')
+		  .should('have.text', '6')
+	})
+})
 
+
+describe('calculator special subtraction action', function() {
+	it('equals button continues to subtract incrementally', function() {
+		cy.visit('/')
+		cy.contains('6').click()
+		cy.contains('-').click()
+		cy.contains('1').click()
+		cy.contains('=').click()
+		cy.contains('=').click()
+		cy.contains('=').click()
+		cy.contains('=').click()
+		cy.get('.calculator__display')
+		  .should('have.text', '2')
+	})
+})
