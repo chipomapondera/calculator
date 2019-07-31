@@ -85,7 +85,30 @@ keys.addEventListener('click', e => {
     const resultString = createResultString(e.target, displayedNum, calculator.dataset)
     Array.from(key.parentNode.children).forEach(k => k.classList.remove('is-depressed'))
 
-  const updateCalculatorState = () => {
+  
+  const updateCalculatorState = (key, calculator) => {
+    const keyType = getKeyType(key)
+    calculator.dataset.previousKeyType = keyType
+
+    if (keyType === 'number') {
+
+    }
+
+    if (keyType === 'decimal') {
+
+    }
+
+    if (keyType === 'operator') {
+
+    }
+
+    if (keyType === 'clear') {
+
+    }
+
+    if (keyType === 'calculate') {
+
+    }
 
 }
 
