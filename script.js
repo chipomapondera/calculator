@@ -35,13 +35,14 @@ keys.addEventListener('click', e => {
     Array.from(key.parentNode.children).forEach(k => k.classList.remove('is-depressed'))
     
   const createResultString = () => {
-  	// Variables required are:
+  	// Variables & properties required are:
   	// 1. keyContent
   	// 2. displayedNum
   	// 3. previousKeyType
   	// 4. action
     // 5. calculator.dataset.firstValue
     // 6. calculator.dataset.operator
+    // 7. calculator.dataset.modvalue
   	
     if (!action) {
     	console.log('This is action 1 ', action)
@@ -60,23 +61,36 @@ keys.addEventListener('click', e => {
     }
 
     console.log('This is action 3 ', action)
-    if (action === 'add' || 
-    	action === 'subtract' || 
-    	action === 'multiply' || 
-    	action === 'divide') {
-    	console.log('This is operator', action)
-
-      	const firstValue = calculator.dataset.firstValue
-      	const operator = calculator.dataset.operator
-      	const secondValue = displayedNum
+  if (action === 'add' || 
+    action === 'subtract' || 
+    action === 'multiply' || 
+    action === 'divide') {
+      const firstValue = calculator.dataset.firstValue
+      const operator = calculator.dataset.operator
   
-    	return firstValue && 
-    	operator && 
-    	previousKeyType !== 'operator' && 
-    	previousKeyType !== 'calculate'
-    	? calculate(firstValue, operator, secondValue)
-		: displayedNum             
+    return firstValue && 
+      operator && 
+      previousKeyType !== 'operator' &&       
+      previousKeyType !== 'calculate'
+
+    ? calculate(firstValue, operator, displayedNum)
+    : displayedNum;
+            
   } 
+
+  if (action === 'clear') return 0
+
+  if (action === 'calculate') {
+    const firstValue = calculator.dataset.firstValue      
+    const operator = calculator.dataset.operator
+    const modValue = calculator.dataset.modValue
+      
+  return firstValue     
+    ? previousKeyType === 'calculate'          
+      ? calculate(displayedNum, operator, modValue)
+      : calculate(firstValue, operator, displayedNum)
+    : displayedNum
+    }
 }
 
   const updateCalculatorState = () => {
